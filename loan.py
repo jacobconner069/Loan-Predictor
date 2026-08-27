@@ -1,3 +1,4 @@
+#import the appropriate libraries
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,7 +11,7 @@ from sklearn.neighbors import KNeighborsClassifier
 import warnings
 warnings.filterwarnings("ignore")
 
-#Part 1 Load the Dataset
+#Load the Dataset
 url = "https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data"
 print("Loading dataset from URL")
 names = ['age', 'workclass', 'fnlwgt', 'education', 'education-num', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'capital-gain', 'capital-loss', 'hours-per-week', 'native-country', 'income']
@@ -33,7 +34,7 @@ print("Dropping all missing values")
 print(df.isnull().sum())
 df = df.map(lambda x: x.strip() if isinstance(x, str) else x)
 
-#Part 2 Data Preprocessing
+#Data Preprocessing
 print("Encoding categorical variables")
 y = df["income"]
 x = df.drop("income", axis=1)
@@ -57,7 +58,7 @@ print("Description of encoding")
 print("Label encoding applied to all catecorical columns.")
 print("Standardization applied to all numerical columns.")
 
-#Part 3 Train Test Split
+#Train Test Split
 print("Splitting data into training and testing sets")
 x_train, x_test, y_train, y_test = train_test_split(x_scaled, y, test_size=0.2, random_state=42, stratify=y)
 print("Data split completed")
@@ -68,7 +69,7 @@ print(x_train.shape)
 print("Testing size")
 print(x_test.shape)
 
-#Part 4 K-Nearest Neighbors
+#K-Nearest Neighbors
 print("K-Nearest Neighbors")
 k_values = [1, 3, 5, 7, 9, 11, 15, 20]
 results = []
@@ -88,7 +89,7 @@ for k in k_values:
 
 results = pd.DataFrame(results, columns=['K', 'Precision', 'Recall', 'F1-Score', 'Accuracy'])
 
-#Part 5 Choose Best K
+#Choose Best K
 best_k = results.loc[results['Accuracy'].idxmax()]['K']
 print(f"Best K based on accuracy: {best_k}") 
 
@@ -105,7 +106,7 @@ plt.close()
 print("Accuracy vs K plot was generated and saved as 'accuracy_vs_k.png'.")
 print("The best K value was determined based on the highest accuracy score as shown in the plot.")
 
-#Part 6 Final Model Evaluation
+#Final Model Evaluation
 final_knn = KNeighborsClassifier(n_neighbors=int(best_k))
 final_knn.fit(x_train, y_train)
 final_y_pred = final_knn.predict(x_test)
@@ -138,7 +139,3 @@ display.plot(colorbar=True, cmap='Blues')
 plt.savefig('confusion_matrix.png')
 plt.close()
 print("The confusion matrix heatmap was visualized and saved as 'confusion_matrix.png'.")
-
-#Part 7 Visualization (already completed)
-#Part 8 in report
-
